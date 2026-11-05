@@ -1,0 +1,7 @@
+#cloud-config
+hostname: cloud-vm
+users:
+  - name: student
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+
