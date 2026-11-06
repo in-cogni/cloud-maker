@@ -1,21 +1,11 @@
 #!/bin/bash 
 BRIDGE_NAME="br0"
 
-echo "Проверяем наличие сетевого моста $BRIDGE_NAME..."
-if ! virsh net-dumpxml $BRIDGE_NAME >/dev/null 2>&1; then
-    echo "Создаем конфигурацию мостовой сети..."
-    cat <<EOF > bridge-net.xml
-<network>
-  <name>$BRIDGE_NAME</name>
-  <forward mode='bridge'/>
-  <bridge name='$BRIDGE_NAME'/>
-</network>
-EOF
-    virsh net-define bridge-net.xml
-    virsh net-start $BRIDGE_NAME
-    virsh net-autostart $BRIDGE_NAME
-    rm -f bridge-net.xml
-    echo "Сеть $BRIDGE_NAME успешно создана и запущена!"
+echo "Создаем системный сетевой мост $BRIDGE_NAME..."
+if ! ip link show $BRIDGE_NAME &>/dev/null; then
+    sudo ip link add name $BRIDGE_NAME type bridge
+    sudo ip link set dev $BRIDGE_NAME up
+    echo "Мост $BRIDGE_NAME успешно создан и поднят!"
 else
-    echo "Сеть $BRIDGE_NAME уже существует."
+    echo "Мост $BRIDGE_NAME уже существует."
 fi

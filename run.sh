@@ -18,6 +18,6 @@ wget -nc https://cloud-images.ubuntu.com/minimal/releases/jammy/release/ubuntu-2
 cp ubuntu-22.04-minimal-cloudimg-amd64.img ${VM_NAME}.qcow2
 
  
-virt-install --name base-vm --memory 512 --vcpus 1 --disk path=base-vm.qcow2,format=qcow2 --import --os-variant ubuntu22.04 --network bridge=br0,model=virtio --noautoconsole
+virt-install --name $VM_NAME --memory 512 --vcpus 1 --disk path=${VM_NAME}.qcow2,format=qcow2 --import --os-variant ubuntu22.04 --network network=br0,model=virtio --noautoconsole
 
 virsh list
