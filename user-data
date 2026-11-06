@@ -1,7 +1,15 @@
 #cloud-config
 hostname: cloud-vm
+
 users:
   - name: student
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
 
+package_update: true
+packages:
+  - nginx
+
+runcmd:
+  - systemctl enable nginx
+  - systemctl start nginx
